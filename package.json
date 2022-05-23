@@ -1,16 +1,16 @@
 {
-  "name": "react-native-webview",
-  "description": "React Native WebView component for iOS, Android, macOS, and Windows",
+  "name": "interpro-react-native-webview",
+  "description": "React Native WebView component for iOS, Android, macOS, and Windows, modified by InterPro Solutions",
   "main": "index.js",
   "main-internal": "src/index.ts",
   "typings": "index.d.ts",
-  "author": "Jamon Holmgren <jamon@infinite.red>",
+  "author": "James Baffoni <jbaffoni@interprosoft.com> (https://interprosoft.com/)",
   "contributors": [
     "Thibault Malbranche <malbranche.thibault@gmail.com>"
   ],
   "license": "MIT",
-  "version": "11.18.2",
-  "homepage": "https://github.com/react-native-webview/react-native-webview#readme",
+  "version": "1.0.4",
+  "homepage": "https://github.com/jamesbaffoni/interpro-react-native-webview#readme",
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios --project-path example/ios",
@@ -74,7 +74,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/react-native-webview/react-native-webview.git"
+    "url": "https://github.com/jamesbaffoni/interpro-react-native-webview.git"
   },
   "files": [
     "android",
@@ -85,7 +85,7 @@
     "lib",
     "index.js",
     "index.d.ts",
-    "react-native-webview.podspec",
+    "interpro-react-native-webview.podspec",
     "react-native.config.js"
   ]
 }
