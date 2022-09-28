@@ -3,8 +3,11 @@ package com.reactnativecommunity.webview;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -16,6 +19,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Message;
 import android.os.SystemClock;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -984,7 +988,36 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
 
     @Override
     public void onReceivedSslError(final WebView webView, final SslErrorHandler handler, final SslError error) {
-      handler.proceed();
+      SharedPreferences appPrefs = PreferenceManager.getDefaultSharedPreferences(webView.getContext());
+      final SharedPreferences.Editor prefEditor = appPrefs.edit();
+      prefEditor.putBoolean("SslUntrusted", true);
+      prefEditor.commit();
+      AlertDialog.Builder builder = new AlertDialog.Builder(webView.getContext());
+      builder.setTitle("SSL Certificate Untrusted");
+      builder.setMessage("Do you want to process it anyway?");
+      builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+        public void onClick(DialogInterface arg0, int arg1) {
+          //process it anyway -- which means bypassing
+          handler.proceed();
+          prefEditor.putString("ProcessAnyway", "YES");
+          prefEditor.commit();
+        }
+      });
+
+      builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+        public void onClick(DialogInterface dialog, int which) {
+          prefEditor.putString("ProcessAnyway", "NO");
+          prefEditor.commit();
+          handler.cancel();
+        }
+      });
+      if (appPrefs.getString("ProcessAnyway", "NO").equalsIgnoreCase("no")) {
+        builder.show();
+      } else {
+        handler.proceed();
+      }
     }
 
     @Override
